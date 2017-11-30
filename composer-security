@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+
+import requests
+import sys
+
+from pathlib import Path
+
+if len(sys.argv) > 1:
+	lock_file_path = sys.argv[1]
+else:
+	lock_file_path = 'composer.lock'
+
+lock_file = Path(lock_file_path)
+if not lock_file.is_file():
+	print('Unable to find the Composer lock file (path="%s").' % lock_file_path)
+	sys.exit(1)
+
+headers = {'Accept': 'text/plain'}
+files = {'lock': open(lock_file_path, 'rb')}
+
+r = requests.post('https://security.sensiolabs.org/check_lock', files=files, headers=headers)
+alerts = int(r.headers['X-Alerts'])
+
+print(r.text)
+sys.exit(alerts)

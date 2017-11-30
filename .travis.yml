@@ -1,0 +1,11 @@
+sudo: required
+language: bash
+
+services:
+  - docker
+
+script:
+  - docker build .
+
+after_script:
+  - docker images
