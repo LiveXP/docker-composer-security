@@ -18,7 +18,7 @@ if not lock_file.is_file():
 headers = {'Accept': 'text/plain'}
 files = {'lock': open(lock_file_path, 'rb')}
 
-r = requests.post('https://security.sensiolabs.org/check_lock', files=files, headers=headers)
+r = requests.post('https://security.sensiolabs.com/check_lock', files=files, headers=headers)
 alerts = int(r.headers['X-Alerts'])
 
 print(r.text)
